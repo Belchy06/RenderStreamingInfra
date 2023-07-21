@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+option go_package = "./signalling";
+
+message PingMsg {
+    string message = 1;
+}
+
+message PongMsg {
+    string message = 2;
+}
+
+service SignallingService {
+    rpc Ping(PingMsg) returns (PongMsg) {}
+}
