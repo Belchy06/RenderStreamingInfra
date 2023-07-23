@@ -2,14 +2,35 @@ syntax = "proto3";
 
 option go_package = "./signalling";
 
-message PingMsg {
-    string message = 1;
+message Empty {
 }
 
-message PongMsg {
-    string message = 2;
+message Streamer {
+    string id = 1;
 }
 
-service SignallingService {
-    rpc Ping(PingMsg) returns (PongMsg) {}
+message PeerConfig {
+    string peerConnectionOptions = 1;
+}
+
+message PlayerConnected {
+    string id = 1;
+}
+
+message Offer {
+    string id = 1;
+    string sdp = 2;
+}
+
+service Signalling {
+    rpc Config(Empty) returns (PeerConfig) {}
+
+    // Viewer
+    rpc ConnectPlayer(Empty) returns (Empty) {}
+    rpc SubscribeToApplicationOffer(Empty) returns (stream Offer) {}
+    
+    // Application
+    rpc ConnectStreamer(Streamer) returns (Empty) {}
+    rpc SubscribeToPlayerConnected(Empty) returns (stream PlayerConnected) {}
+    rpc SendOfferToPlayer(Offer) returns (Empty) {}
 }

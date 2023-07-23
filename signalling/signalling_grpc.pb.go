@@ -18,88 +18,327 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-// SignallingServiceClient is the client API for SignallingService service.
+// SignallingClient is the client API for Signalling service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type SignallingServiceClient interface {
-	Ping(ctx context.Context, in *PingMsg, opts ...grpc.CallOption) (*PongMsg, error)
+type SignallingClient interface {
+	Config(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*PeerConfig, error)
+	// Viewer
+	ConnectPlayer(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*Empty, error)
+	SubscribeToApplicationOffer(ctx context.Context, in *Empty, opts ...grpc.CallOption) (Signalling_SubscribeToApplicationOfferClient, error)
+	// Application
+	ConnectStreamer(ctx context.Context, in *Streamer, opts ...grpc.CallOption) (*Empty, error)
+	SubscribeToPlayerConnected(ctx context.Context, in *Empty, opts ...grpc.CallOption) (Signalling_SubscribeToPlayerConnectedClient, error)
+	SendOfferToPlayer(ctx context.Context, in *Offer, opts ...grpc.CallOption) (*Empty, error)
 }
 
-type signallingServiceClient struct {
+type signallingClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewSignallingServiceClient(cc grpc.ClientConnInterface) SignallingServiceClient {
-	return &signallingServiceClient{cc}
+func NewSignallingClient(cc grpc.ClientConnInterface) SignallingClient {
+	return &signallingClient{cc}
 }
 
-func (c *signallingServiceClient) Ping(ctx context.Context, in *PingMsg, opts ...grpc.CallOption) (*PongMsg, error) {
-	out := new(PongMsg)
-	err := c.cc.Invoke(ctx, "/SignallingService/Ping", in, out, opts...)
+func (c *signallingClient) Config(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*PeerConfig, error) {
+	out := new(PeerConfig)
+	err := c.cc.Invoke(ctx, "/Signalling/Config", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// SignallingServiceServer is the server API for SignallingService service.
-// All implementations must embed UnimplementedSignallingServiceServer
+func (c *signallingClient) ConnectPlayer(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*Empty, error) {
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, "/Signalling/ConnectPlayer", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *signallingClient) SubscribeToApplicationOffer(ctx context.Context, in *Empty, opts ...grpc.CallOption) (Signalling_SubscribeToApplicationOfferClient, error) {
+	stream, err := c.cc.NewStream(ctx, &Signalling_ServiceDesc.Streams[0], "/Signalling/SubscribeToApplicationOffer", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &signallingSubscribeToApplicationOfferClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type Signalling_SubscribeToApplicationOfferClient interface {
+	Recv() (*Offer, error)
+	grpc.ClientStream
+}
+
+type signallingSubscribeToApplicationOfferClient struct {
+	grpc.ClientStream
+}
+
+func (x *signallingSubscribeToApplicationOfferClient) Recv() (*Offer, error) {
+	m := new(Offer)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *signallingClient) ConnectStreamer(ctx context.Context, in *Streamer, opts ...grpc.CallOption) (*Empty, error) {
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, "/Signalling/ConnectStreamer", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *signallingClient) SubscribeToPlayerConnected(ctx context.Context, in *Empty, opts ...grpc.CallOption) (Signalling_SubscribeToPlayerConnectedClient, error) {
+	stream, err := c.cc.NewStream(ctx, &Signalling_ServiceDesc.Streams[1], "/Signalling/SubscribeToPlayerConnected", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &signallingSubscribeToPlayerConnectedClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type Signalling_SubscribeToPlayerConnectedClient interface {
+	Recv() (*PlayerConnected, error)
+	grpc.ClientStream
+}
+
+type signallingSubscribeToPlayerConnectedClient struct {
+	grpc.ClientStream
+}
+
+func (x *signallingSubscribeToPlayerConnectedClient) Recv() (*PlayerConnected, error) {
+	m := new(PlayerConnected)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *signallingClient) SendOfferToPlayer(ctx context.Context, in *Offer, opts ...grpc.CallOption) (*Empty, error) {
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, "/Signalling/SendOfferToPlayer", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// SignallingServer is the server API for Signalling service.
+// All implementations must embed UnimplementedSignallingServer
 // for forward compatibility
-type SignallingServiceServer interface {
-	Ping(context.Context, *PingMsg) (*PongMsg, error)
-	mustEmbedUnimplementedSignallingServiceServer()
+type SignallingServer interface {
+	Config(context.Context, *Empty) (*PeerConfig, error)
+	// Viewer
+	ConnectPlayer(context.Context, *Empty) (*Empty, error)
+	SubscribeToApplicationOffer(*Empty, Signalling_SubscribeToApplicationOfferServer) error
+	// Application
+	ConnectStreamer(context.Context, *Streamer) (*Empty, error)
+	SubscribeToPlayerConnected(*Empty, Signalling_SubscribeToPlayerConnectedServer) error
+	SendOfferToPlayer(context.Context, *Offer) (*Empty, error)
+	mustEmbedUnimplementedSignallingServer()
 }
 
-// UnimplementedSignallingServiceServer must be embedded to have forward compatible implementations.
-type UnimplementedSignallingServiceServer struct {
+// UnimplementedSignallingServer must be embedded to have forward compatible implementations.
+type UnimplementedSignallingServer struct {
 }
 
-func (UnimplementedSignallingServiceServer) Ping(context.Context, *PingMsg) (*PongMsg, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Ping not implemented")
+func (UnimplementedSignallingServer) Config(context.Context, *Empty) (*PeerConfig, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Config not implemented")
 }
-func (UnimplementedSignallingServiceServer) mustEmbedUnimplementedSignallingServiceServer() {}
+func (UnimplementedSignallingServer) ConnectPlayer(context.Context, *Empty) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ConnectPlayer not implemented")
+}
+func (UnimplementedSignallingServer) SubscribeToApplicationOffer(*Empty, Signalling_SubscribeToApplicationOfferServer) error {
+	return status.Errorf(codes.Unimplemented, "method SubscribeToApplicationOffer not implemented")
+}
+func (UnimplementedSignallingServer) ConnectStreamer(context.Context, *Streamer) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ConnectStreamer not implemented")
+}
+func (UnimplementedSignallingServer) SubscribeToPlayerConnected(*Empty, Signalling_SubscribeToPlayerConnectedServer) error {
+	return status.Errorf(codes.Unimplemented, "method SubscribeToPlayerConnected not implemented")
+}
+func (UnimplementedSignallingServer) SendOfferToPlayer(context.Context, *Offer) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SendOfferToPlayer not implemented")
+}
+func (UnimplementedSignallingServer) mustEmbedUnimplementedSignallingServer() {}
 
-// UnsafeSignallingServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to SignallingServiceServer will
+// UnsafeSignallingServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to SignallingServer will
 // result in compilation errors.
-type UnsafeSignallingServiceServer interface {
-	mustEmbedUnimplementedSignallingServiceServer()
+type UnsafeSignallingServer interface {
+	mustEmbedUnimplementedSignallingServer()
 }
 
-func RegisterSignallingServiceServer(s grpc.ServiceRegistrar, srv SignallingServiceServer) {
-	s.RegisterService(&SignallingService_ServiceDesc, srv)
+func RegisterSignallingServer(s grpc.ServiceRegistrar, srv SignallingServer) {
+	s.RegisterService(&Signalling_ServiceDesc, srv)
 }
 
-func _SignallingService_Ping_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PingMsg)
+func _Signalling_Config_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(SignallingServiceServer).Ping(ctx, in)
+		return srv.(SignallingServer).Config(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/SignallingService/Ping",
+		FullMethod: "/Signalling/Config",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SignallingServiceServer).Ping(ctx, req.(*PingMsg))
+		return srv.(SignallingServer).Config(ctx, req.(*Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// SignallingService_ServiceDesc is the grpc.ServiceDesc for SignallingService service.
+func _Signalling_ConnectPlayer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SignallingServer).ConnectPlayer(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Signalling/ConnectPlayer",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SignallingServer).ConnectPlayer(ctx, req.(*Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Signalling_SubscribeToApplicationOffer_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(Empty)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(SignallingServer).SubscribeToApplicationOffer(m, &signallingSubscribeToApplicationOfferServer{stream})
+}
+
+type Signalling_SubscribeToApplicationOfferServer interface {
+	Send(*Offer) error
+	grpc.ServerStream
+}
+
+type signallingSubscribeToApplicationOfferServer struct {
+	grpc.ServerStream
+}
+
+func (x *signallingSubscribeToApplicationOfferServer) Send(m *Offer) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _Signalling_ConnectStreamer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Streamer)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SignallingServer).ConnectStreamer(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Signalling/ConnectStreamer",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SignallingServer).ConnectStreamer(ctx, req.(*Streamer))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Signalling_SubscribeToPlayerConnected_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(Empty)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(SignallingServer).SubscribeToPlayerConnected(m, &signallingSubscribeToPlayerConnectedServer{stream})
+}
+
+type Signalling_SubscribeToPlayerConnectedServer interface {
+	Send(*PlayerConnected) error
+	grpc.ServerStream
+}
+
+type signallingSubscribeToPlayerConnectedServer struct {
+	grpc.ServerStream
+}
+
+func (x *signallingSubscribeToPlayerConnectedServer) Send(m *PlayerConnected) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _Signalling_SendOfferToPlayer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Offer)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SignallingServer).SendOfferToPlayer(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Signalling/SendOfferToPlayer",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SignallingServer).SendOfferToPlayer(ctx, req.(*Offer))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// Signalling_ServiceDesc is the grpc.ServiceDesc for Signalling service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var SignallingService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "SignallingService",
-	HandlerType: (*SignallingServiceServer)(nil),
+var Signalling_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "Signalling",
+	HandlerType: (*SignallingServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Ping",
-			Handler:    _SignallingService_Ping_Handler,
+			MethodName: "Config",
+			Handler:    _Signalling_Config_Handler,
+		},
+		{
+			MethodName: "ConnectPlayer",
+			Handler:    _Signalling_ConnectPlayer_Handler,
+		},
+		{
+			MethodName: "ConnectStreamer",
+			Handler:    _Signalling_ConnectStreamer_Handler,
+		},
+		{
+			MethodName: "SendOfferToPlayer",
+			Handler:    _Signalling_SendOfferToPlayer_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "SubscribeToApplicationOffer",
+			Handler:       _Signalling_SubscribeToApplicationOffer_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "SubscribeToPlayerConnected",
+			Handler:       _Signalling_SubscribeToPlayerConnected_Handler,
+			ServerStreams: true,
+		},
+	},
 	Metadata: "signalling.proto",
 }

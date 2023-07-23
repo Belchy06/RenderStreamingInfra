@@ -20,16 +20,14 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type PingMsg struct {
+type Empty struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-
-	Message string `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
 }
 
-func (x *PingMsg) Reset() {
-	*x = PingMsg{}
+func (x *Empty) Reset() {
+	*x = Empty{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_signalling_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -37,13 +35,13 @@ func (x *PingMsg) Reset() {
 	}
 }
 
-func (x *PingMsg) String() string {
+func (x *Empty) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*PingMsg) ProtoMessage() {}
+func (*Empty) ProtoMessage() {}
 
-func (x *PingMsg) ProtoReflect() protoreflect.Message {
+func (x *Empty) ProtoReflect() protoreflect.Message {
 	mi := &file_signalling_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -55,28 +53,21 @@ func (x *PingMsg) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use PingMsg.ProtoReflect.Descriptor instead.
-func (*PingMsg) Descriptor() ([]byte, []int) {
+// Deprecated: Use Empty.ProtoReflect.Descriptor instead.
+func (*Empty) Descriptor() ([]byte, []int) {
 	return file_signalling_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *PingMsg) GetMessage() string {
-	if x != nil {
-		return x.Message
-	}
-	return ""
-}
-
-type PongMsg struct {
+type Streamer struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Message string `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 }
 
-func (x *PongMsg) Reset() {
-	*x = PongMsg{}
+func (x *Streamer) Reset() {
+	*x = Streamer{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_signalling_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -84,13 +75,13 @@ func (x *PongMsg) Reset() {
 	}
 }
 
-func (x *PongMsg) String() string {
+func (x *Streamer) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*PongMsg) ProtoMessage() {}
+func (*Streamer) ProtoMessage() {}
 
-func (x *PongMsg) ProtoReflect() protoreflect.Message {
+func (x *Streamer) ProtoReflect() protoreflect.Message {
 	mi := &file_signalling_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -102,14 +93,163 @@ func (x *PongMsg) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use PongMsg.ProtoReflect.Descriptor instead.
-func (*PongMsg) Descriptor() ([]byte, []int) {
+// Deprecated: Use Streamer.ProtoReflect.Descriptor instead.
+func (*Streamer) Descriptor() ([]byte, []int) {
 	return file_signalling_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *PongMsg) GetMessage() string {
+func (x *Streamer) GetId() string {
 	if x != nil {
-		return x.Message
+		return x.Id
+	}
+	return ""
+}
+
+type PeerConfig struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	PeerConnectionOptions string `protobuf:"bytes,1,opt,name=peerConnectionOptions,proto3" json:"peerConnectionOptions,omitempty"`
+}
+
+func (x *PeerConfig) Reset() {
+	*x = PeerConfig{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_signalling_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *PeerConfig) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PeerConfig) ProtoMessage() {}
+
+func (x *PeerConfig) ProtoReflect() protoreflect.Message {
+	mi := &file_signalling_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PeerConfig.ProtoReflect.Descriptor instead.
+func (*PeerConfig) Descriptor() ([]byte, []int) {
+	return file_signalling_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *PeerConfig) GetPeerConnectionOptions() string {
+	if x != nil {
+		return x.PeerConnectionOptions
+	}
+	return ""
+}
+
+type PlayerConnected struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+}
+
+func (x *PlayerConnected) Reset() {
+	*x = PlayerConnected{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_signalling_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *PlayerConnected) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PlayerConnected) ProtoMessage() {}
+
+func (x *PlayerConnected) ProtoReflect() protoreflect.Message {
+	mi := &file_signalling_proto_msgTypes[3]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PlayerConnected.ProtoReflect.Descriptor instead.
+func (*PlayerConnected) Descriptor() ([]byte, []int) {
+	return file_signalling_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *PlayerConnected) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+type Offer struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id  string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Sdp string `protobuf:"bytes,2,opt,name=sdp,proto3" json:"sdp,omitempty"`
+}
+
+func (x *Offer) Reset() {
+	*x = Offer{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_signalling_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Offer) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Offer) ProtoMessage() {}
+
+func (x *Offer) ProtoReflect() protoreflect.Message {
+	mi := &file_signalling_proto_msgTypes[4]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Offer.ProtoReflect.Descriptor instead.
+func (*Offer) Descriptor() ([]byte, []int) {
+	return file_signalling_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *Offer) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *Offer) GetSdp() string {
+	if x != nil {
+		return x.Sdp
 	}
 	return ""
 }
@@ -118,16 +258,37 @@ var File_signalling_proto protoreflect.FileDescriptor
 
 var file_signalling_proto_rawDesc = []byte{
 	0x0a, 0x10, 0x73, 0x69, 0x67, 0x6e, 0x61, 0x6c, 0x6c, 0x69, 0x6e, 0x67, 0x2e, 0x70, 0x72, 0x6f,
-	0x74, 0x6f, 0x22, 0x23, 0x0a, 0x07, 0x50, 0x69, 0x6e, 0x67, 0x4d, 0x73, 0x67, 0x12, 0x18, 0x0a,
-	0x07, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07,
-	0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x22, 0x23, 0x0a, 0x07, 0x50, 0x6f, 0x6e, 0x67, 0x4d,
-	0x73, 0x67, 0x12, 0x18, 0x0a, 0x07, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x18, 0x02, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x07, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x32, 0x31, 0x0a, 0x11,
-	0x53, 0x69, 0x67, 0x6e, 0x61, 0x6c, 0x6c, 0x69, 0x6e, 0x67, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63,
-	0x65, 0x12, 0x1c, 0x0a, 0x04, 0x50, 0x69, 0x6e, 0x67, 0x12, 0x08, 0x2e, 0x50, 0x69, 0x6e, 0x67,
-	0x4d, 0x73, 0x67, 0x1a, 0x08, 0x2e, 0x50, 0x6f, 0x6e, 0x67, 0x4d, 0x73, 0x67, 0x22, 0x00, 0x42,
-	0x0e, 0x5a, 0x0c, 0x2e, 0x2f, 0x73, 0x69, 0x67, 0x6e, 0x61, 0x6c, 0x6c, 0x69, 0x6e, 0x67, 0x62,
-	0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x74, 0x6f, 0x22, 0x07, 0x0a, 0x05, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x22, 0x1a, 0x0a, 0x08, 0x53,
+	0x74, 0x72, 0x65, 0x61, 0x6d, 0x65, 0x72, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x22, 0x42, 0x0a, 0x0a, 0x50, 0x65, 0x65, 0x72, 0x43,
+	0x6f, 0x6e, 0x66, 0x69, 0x67, 0x12, 0x34, 0x0a, 0x15, 0x70, 0x65, 0x65, 0x72, 0x43, 0x6f, 0x6e,
+	0x6e, 0x65, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x15, 0x70, 0x65, 0x65, 0x72, 0x43, 0x6f, 0x6e, 0x6e, 0x65, 0x63,
+	0x74, 0x69, 0x6f, 0x6e, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x22, 0x21, 0x0a, 0x0f, 0x50,
+	0x6c, 0x61, 0x79, 0x65, 0x72, 0x43, 0x6f, 0x6e, 0x6e, 0x65, 0x63, 0x74, 0x65, 0x64, 0x12, 0x0e,
+	0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x22, 0x29,
+	0x0a, 0x05, 0x4f, 0x66, 0x66, 0x65, 0x72, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12, 0x10, 0x0a, 0x03, 0x73, 0x64, 0x70, 0x18, 0x02,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x73, 0x64, 0x70, 0x32, 0x8e, 0x02, 0x0a, 0x0a, 0x53, 0x69,
+	0x67, 0x6e, 0x61, 0x6c, 0x6c, 0x69, 0x6e, 0x67, 0x12, 0x1f, 0x0a, 0x06, 0x43, 0x6f, 0x6e, 0x66,
+	0x69, 0x67, 0x12, 0x06, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x1a, 0x0b, 0x2e, 0x50, 0x65, 0x65,
+	0x72, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x22, 0x00, 0x12, 0x21, 0x0a, 0x0d, 0x43, 0x6f, 0x6e,
+	0x6e, 0x65, 0x63, 0x74, 0x50, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x12, 0x06, 0x2e, 0x45, 0x6d, 0x70,
+	0x74, 0x79, 0x1a, 0x06, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x22, 0x00, 0x12, 0x31, 0x0a, 0x1b,
+	0x53, 0x75, 0x62, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x54, 0x6f, 0x41, 0x70, 0x70, 0x6c, 0x69,
+	0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4f, 0x66, 0x66, 0x65, 0x72, 0x12, 0x06, 0x2e, 0x45, 0x6d,
+	0x70, 0x74, 0x79, 0x1a, 0x06, 0x2e, 0x4f, 0x66, 0x66, 0x65, 0x72, 0x22, 0x00, 0x30, 0x01, 0x12,
+	0x26, 0x0a, 0x0f, 0x43, 0x6f, 0x6e, 0x6e, 0x65, 0x63, 0x74, 0x53, 0x74, 0x72, 0x65, 0x61, 0x6d,
+	0x65, 0x72, 0x12, 0x09, 0x2e, 0x53, 0x74, 0x72, 0x65, 0x61, 0x6d, 0x65, 0x72, 0x1a, 0x06, 0x2e,
+	0x45, 0x6d, 0x70, 0x74, 0x79, 0x22, 0x00, 0x12, 0x3a, 0x0a, 0x1a, 0x53, 0x75, 0x62, 0x73, 0x63,
+	0x72, 0x69, 0x62, 0x65, 0x54, 0x6f, 0x50, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x43, 0x6f, 0x6e, 0x6e,
+	0x65, 0x63, 0x74, 0x65, 0x64, 0x12, 0x06, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x1a, 0x10, 0x2e,
+	0x50, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x43, 0x6f, 0x6e, 0x6e, 0x65, 0x63, 0x74, 0x65, 0x64, 0x22,
+	0x00, 0x30, 0x01, 0x12, 0x25, 0x0a, 0x11, 0x53, 0x65, 0x6e, 0x64, 0x4f, 0x66, 0x66, 0x65, 0x72,
+	0x54, 0x6f, 0x50, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x12, 0x06, 0x2e, 0x4f, 0x66, 0x66, 0x65, 0x72,
+	0x1a, 0x06, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x22, 0x00, 0x42, 0x0e, 0x5a, 0x0c, 0x2e, 0x2f,
+	0x73, 0x69, 0x67, 0x6e, 0x61, 0x6c, 0x6c, 0x69, 0x6e, 0x67, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74,
+	0x6f, 0x33,
 }
 
 var (
@@ -142,16 +303,29 @@ func file_signalling_proto_rawDescGZIP() []byte {
 	return file_signalling_proto_rawDescData
 }
 
-var file_signalling_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_signalling_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_signalling_proto_goTypes = []interface{}{
-	(*PingMsg)(nil), // 0: PingMsg
-	(*PongMsg)(nil), // 1: PongMsg
+	(*Empty)(nil),           // 0: Empty
+	(*Streamer)(nil),        // 1: Streamer
+	(*PeerConfig)(nil),      // 2: PeerConfig
+	(*PlayerConnected)(nil), // 3: PlayerConnected
+	(*Offer)(nil),           // 4: Offer
 }
 var file_signalling_proto_depIdxs = []int32{
-	0, // 0: SignallingService.Ping:input_type -> PingMsg
-	1, // 1: SignallingService.Ping:output_type -> PongMsg
-	1, // [1:2] is the sub-list for method output_type
-	0, // [0:1] is the sub-list for method input_type
+	0, // 0: Signalling.Config:input_type -> Empty
+	0, // 1: Signalling.ConnectPlayer:input_type -> Empty
+	0, // 2: Signalling.SubscribeToApplicationOffer:input_type -> Empty
+	1, // 3: Signalling.ConnectStreamer:input_type -> Streamer
+	0, // 4: Signalling.SubscribeToPlayerConnected:input_type -> Empty
+	4, // 5: Signalling.SendOfferToPlayer:input_type -> Offer
+	2, // 6: Signalling.Config:output_type -> PeerConfig
+	0, // 7: Signalling.ConnectPlayer:output_type -> Empty
+	4, // 8: Signalling.SubscribeToApplicationOffer:output_type -> Offer
+	0, // 9: Signalling.ConnectStreamer:output_type -> Empty
+	3, // 10: Signalling.SubscribeToPlayerConnected:output_type -> PlayerConnected
+	0, // 11: Signalling.SendOfferToPlayer:output_type -> Empty
+	6, // [6:12] is the sub-list for method output_type
+	0, // [0:6] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -164,7 +338,7 @@ func file_signalling_proto_init() {
 	}
 	if !protoimpl.UnsafeEnabled {
 		file_signalling_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*PingMsg); i {
+			switch v := v.(*Empty); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -176,7 +350,43 @@ func file_signalling_proto_init() {
 			}
 		}
 		file_signalling_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*PongMsg); i {
+			switch v := v.(*Streamer); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_signalling_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*PeerConfig); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_signalling_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*PlayerConnected); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_signalling_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Offer); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -194,7 +404,7 @@ func file_signalling_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_signalling_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

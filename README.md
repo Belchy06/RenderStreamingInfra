@@ -1,1 +1,2 @@
-protoc *.proto --go-grpc_out=. --go_out=.
+F:\Work\Git\UnrealEngine\Engine\Source\ThirdParty\Protobuf\Bin\protoc.exe --go-grpc_out=. ./signalling.proto
+F:\Work\Git\UnrealEngine\Engine\Source\ThirdParty\Protobuf\Bin\protoc.exe --go_out=. ./signalling.proto
